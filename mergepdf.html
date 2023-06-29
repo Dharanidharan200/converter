@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <style>
+        body {
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+     
+
+        #fileList {
+            margin-bottom: 20px;
+        }
+
+        .pdf-preview-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .pdf-preview {
+            border: none;
+            width: 56%;
+            height: 247px;
+        }
+
+       
+
+        #addButton {
+            padding: 5px 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            border-radius: 13px;
+        }
+        #addButton:hover{
+            background-color: #45a049;
+        }
+       
+        #pdfPreviewContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px 10px 10px 10px;
+}
+
+    </style>
+
+<title>Image to PDF Converter</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link href="title.jpg" rel="icon">
+
+</head>
+<body>
+<div class="sidenav" id="mySidenav">
+
+  
+  <a href="mergepdf.html">Merge pdf</a>
+  <a href="word.html">Text Editor</a>
+  <a href="compresspdf.html">Compress pdf</a>
+  <a href="index.html">Images Into pdf</a>
+  <a href="base64.html">Image Into Base64</a>
+  <a href="converter.html">Image Format Converter</a>
+</div>
+
+<div class="main">
+  <div class="header">
+    <h1 class="company-name">D </h1>
+    <h2 class="company-subtitle">Unlock the Wonder</h2>
+    <!-- <button class="openbtn" onclick="openNav()">Open Menu</button> -->
+    <button class="openbtn" onclick="toggleNav()"> <i class="fas fa-th"></i></button>
+  </div>
+
+    <ul id="fileList"></ul>
+
+    <label for="pdfFiles" class="file-label">Select PDF Files</label>
+    <input type="file" id="pdfFiles" class="file-input" multiple>
+    <button id="addButton">+</button>&nbsp;&nbsp;<button id="clearButton" class="button">Clear All</button>
+    <br>
+    <div id="pdfPreviewContainer"></div>
+    <button id="mergeButton" class="button">Merge PDFs</button>
+
+  
+<script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var staticPDFs = [];
+    
+            $('#pdfFiles').change(function() {
+                var files = $('#pdfFiles')[0].files;
+                updateFileList(files);
+                displayPDFPreviews(files);
+            });
+    
+            $('#addButton').click(function() {
+                $('#pdfFiles').click();
+            });
+    
+            $('#mergeButton').click(function() {
+                var formData = new FormData();
+                var files = $('#pdfFiles')[0].files;
+    
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('pdfFiles', files[i]);
+                }
+    
+                $.ajax({
+                    url: 'http://192.168.15.216:3000/merge',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var blob = new Blob([response], { type: 'application/pdf' });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'merged.pdf';
+                        link.click();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert('An error occurred while merging PDFs. Please try again later.');
+                    }
+                });
+            });
+    
+            $('#clearButton').click(function() {
+                $('#pdfFiles').val(''); // Clear the file input
+                $('#fileList').empty(); // Clear the file list
+                $('#pdfPreviewContainer').empty(); // Clear the preview container
+                staticPDFs = []; // Clear the static PDFs array
+            });
+    
+            function updateFileList(files) {
+                var fileList = $('#fileList');
+                fileList.empty();
+    
+                for (var i = 0; i < files.length; i++) {
+                    var listItem = $('<li>').text(files[i].name);
+                    fileList.append(listItem);
+                }
+            }
+    
+            function displayPDFPreviews(files) {
+                var pdfPreviewContainer = $('#pdfPreviewContainer');
+                pdfPreviewContainer.empty();
+    
+                for (var i = 0; i < files.length; i++) {
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function(file) {
+                        return function(event) {
+                            var pdfData = event.target.result;
+    
+                            // Create a temporary element to extract the first page
+                            var tempElem = document.createElement('div');
+                            tempElem.innerHTML = '<embed src="' + pdfData + '#page=1" type="application/pdf" class="pdf-preview" />';
+    
+                            var previewDiv = $('<div>').addClass('pdf-preview-container');
+                            var pdfEmbed = $(tempElem).find('embed.pdf-preview');
+                            var deleteButton = $('<button>').addClass('delete-button').text('-');
+                            deleteButton.click(function() {
+                                previewDiv.remove();
+                                staticPDFs = staticPDFs.filter(function(pdf) {
+                                    return pdf !== pdfData;
+                                });
+                            });
+                            previewDiv.append(deleteButton);
+                            previewDiv.append(pdfEmbed);
+                            pdfPreviewContainer.append(previewDiv);
+    
+                            staticPDFs.push(pdfData);
+                        };
+                    })(files[i]);
+                    fileReader.onerror = function() {
+                        console.error('Error occurred while reading file:', files[i].name);
+                    };
+                    fileReader.readAsDataURL(files[i]);
+                }
+    
+                for (var j = 0; j < staticPDFs.length; j++) {
+                    var staticPreviewDiv = $('<div>').addClass('pdf-preview-container');
+                    var staticPDFEmbed = $('<embed>').addClass('pdf-preview').attr('src', staticPDFs[j]);
+                    var deleteButton = $('<button>').addClass('delete-button').text('-');
+                    deleteButton.click(function() {
+                        staticPreviewDiv.remove();
+                        staticPDFs.splice(j, 1);
+                    });
+                    staticPreviewDiv.append(deleteButton);
+                    staticPreviewDiv.append(staticPDFEmbed);
+                    pdfPreviewContainer.append(staticPreviewDiv);
+                }
+            }
+        });
+    </script>
+    
+
+      
+   
+</body>
+</html>

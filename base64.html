@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image to Base64 Converter</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="title.jpg" rel="icon">
+
+</head>
+<body>
+  <div class="sidenav" id="mySidenav">
+    <a href="mergepdf.html">Merge pdf</a>
+    <a href="word.html">Text Editor</a>
+    <a href="compresspdf.html">Compress pdf</a>
+    <a href="index.html">Images Into pdf</a>
+    <a href="base64.html">Image Into Base64</a>
+    <a href="converter.html">Image Format Converter</a>
+
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1 class="company-name">D</h1>
+      <h2 class="company-subtitle">Unlock the Wonder</h2>
+      <button class="openbtn" onclick="toggleNav()"><i class="fas fa-th"></i></button>
+    </div>
+    <br>
+    <div class="base64-container">
+        <h1>Image to Base64 Converter</h1>
+        <form id="imageForm" action="/convert-to-base64" method="post">
+        <div class="form-group">
+          <label for="image">Select Image:</label>
+          <input type="file" id="image" name="images" accept="image/*" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" id="convertButton">Convert to Base64</button>
+        </div>
+      </form>
+
+      <div class="base64-output-container">
+        <h2>Base64 Output</h2>
+        <div class="output-wrapper">
+          <textarea id="base64Output" readonly></textarea>
+          <div class="button-group">
+            <button class="copy-button" id="copyButton">Copy</button>
+            <button class="clear-button" id="clearButton">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+
+  <script>
+    const imageForm = document.getElementById('imageForm');
+    const base64Output = document.getElementById('base64Output');
+    const copyButton = document.getElementById('copyButton');
+    const clearButton = document.getElementById('clearButton');
+
+    imageForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(imageForm);
+
+      fetch('http://192.168.15.216:3000/convert-to-base64', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          base64Output.value = data.base64;
+        })
+        .catch(error => {
+          console.error('Error occurred while converting to base64:', error);
+        });
+    });
+
+    copyButton.addEventListener('click', function () {
+      base64Output.select();
+      document.execCommand('copy');
+    });
+
+    clearButton.addEventListener('click', function () {
+      base64Output.value = '';
+    });
+  </script>
+</body>
+</html>
+
+

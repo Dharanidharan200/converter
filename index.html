@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image to PDF Converter</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="title.jpg" rel="icon">
+
+</head>
+<body>
+  <div class="sidenav" id="mySidenav">
+    <a href="mergepdf.html">Merge pdf</a>
+    <a href="word.html">Text Editor</a>
+    <a href="compresspdf.html">Compress pdf</a>
+    <a href="index.html">Images Into pdf</a>
+    <a href="base64.html">Image Into Base64</a>
+    <a href="converter.html">Image Format Converter</a>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1 class="company-name">D </h1>
+      <h2 class="company-subtitle">Unlock the Wonder</h2>
+      <!-- <button class="openbtn" onclick="openNav()">Open Menu</button> -->
+      <button class="openbtn" onclick="toggleNav()"> <i class="fas fa-th"></i></button>
+    </div>
+  
+    <div class="container">
+      <div class="upload-wrapper">
+        <label for="imageInput" class="upload-label">Add Image</label> <button id="convertButton">Convert to PDF</button>
+        <br><p id="imageCount">Total Images: 0</p>
+        <input type="file" id="imageInput" accept="image/*" multiple>
+      </div>
+    
+      <div id="preview">
+        <div class="delete-button">
+        </div>
+        <br>
+      </div>
+      
+     
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+  <p id="note">Note:Use Only Image Format one at a Time if you have multiple image format try to convert.<a href="converter.html">click here</a></p>
+</body>
+</html>
