@@ -1,0 +1,334 @@
+body {
+  font-family: system-ui;
+  font-weight: 500;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  overflow-x: hidden;
+  padding-top: 143px;
+  transition: 0.5s;
+  text-align: left;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  /* font-size: 20px; */
+  color: #45a049;
+  display: block;
+  transition: 0.3s;
+  font-family: system-ui;
+  font-weight: 500;
+}
+
+.sidenav a:hover {
+  color: #fff
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  background-color: #333;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  z-index: 9999;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.openbtn:hover {
+  background-color: #ff3333;
+}
+
+.main {
+  transition: margin-left 0.5s;
+}
+
+.main.open {
+  margin-left: 200px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 95px;
+}
+
+.header {
+  background-color: #333;
+  padding: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  color: white;
+  position: relative;
+  top: -20px;
+  left: 0;
+
+  height: 20%;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("wonder-background.jpg");
+  background-size: cover;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.company-name {
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+}
+
+.company-subtitle {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.upload-wrapper {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.upload-label {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-label:hover {
+  background-color: #45a049;
+}
+
+#imageInput {
+  display: none;
+}
+
+#preview {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  flex-basis: 100%;
+}
+
+.image-item:last-child {
+  border-bottom: none;
+}
+
+.image-item img {
+  max-width: 100%;
+  max-height: 200px;
+  margin-right: 20px;
+}
+
+.delete-button .remove-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-item .remove-button:hover {
+  background-color: #ff3333;
+}
+
+#convertButton {
+  display: block;
+  margin: 20px auto 0;
+  padding: 12px 30px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-family: system-ui;
+  font-weight: 500;
+}
+
+#convertButton:hover {
+  background-color: #45a049;
+}
+
+.remove-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #ff3333;
+}
+
+/* Base64 starts */
+
+h1 {
+  text-align: center;
+}
+
+.base64-container {
+  padding-top: 0px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: system-ui;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.form-group input[type="file"] {
+  display: block;
+}
+
+.form-group .btn-convert {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-group .btn-convert:hover {
+  background-color: #45a049;
+}
+
+.base64-output-container {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.base64-output-container h2 {
+  margin-top: 0;
+}
+
+.base64-output-container textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+}
+/* Base 64 ends */
+/* pdf compress starts */
+
+
+
+#compressionForm{
+  
+  text-align: center;
+  font-family: system-ui;
+  font-weight: 500;
+ 
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+input[type="button"],
+input[type="reset"],#compressButton,#downloadButton, #converbuttonimageconverter,#downloadButtonContainer a,.file-label,#mergeButton,#clearButton {
+  background-color: #333;
+  color: white;
+  border: none;
+  margin-bottom: 20px;
+  padding: 10px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius:4px ;
+
+}
+
+input[type="button"]:hover,
+input[type="reset"]:hover,#compressButton:hover,#downloadButton:hover,#converbuttonimageconverter:hover,#downloadButtonContainer a:hover,.file-label:hover,#mergeButton:hover,#clearButton:hover {
+  background-color: #45a049;
+}
+
+a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+/* pdf compress ends */
+
+/* text2 pdf */
+#toolbar{
+margin-bottom: 220px;
+margin-left: 20px;
+}
+#tooledit{
+  margin-bottom: 200px;
+}
+
+/* text 2 pdf ends */
+/* Media Query for Responsive Layout */
+@media screen and (min-width: 300px) and (max-width: 1300px) {
+
+  
+  .header {
+    padding: 5px;
+    top: 0;
+    height: auto;
+  }
+}
+
